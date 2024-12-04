@@ -65,6 +65,12 @@ func testReportSafety(report []int, withRetry bool) (safe bool) {
 							if !contains(unsafePairs, y) {
 								unsafePairs = append(unsafePairs, y)
 							}
+							if !contains(unsafePairs, y-1) {
+								unsafePairs = append(unsafePairs, y-1)
+							}
+							if !contains(unsafePairs, y+1) {
+								unsafePairs = append(unsafePairs, y+1)
+							}
 						}
 						tested = true
 						safe = false
@@ -77,6 +83,12 @@ func testReportSafety(report []int, withRetry bool) (safe bool) {
 						if !retested {
 							if !contains(unsafePairs, y) {
 								unsafePairs = append(unsafePairs, y)
+							}
+							if !contains(unsafePairs, y-1) {
+								unsafePairs = append(unsafePairs, y-1)
+							}
+							if !contains(unsafePairs, y+1) {
+								unsafePairs = append(unsafePairs, y+1)
 							}
 						}
 						tested = true
@@ -96,6 +108,14 @@ func testReportSafety(report []int, withRetry bool) (safe bool) {
 					if !contains(unsafePairs, y) {
 						unsafePairs = append(unsafePairs, y)
 					}
+					if y != 0 {
+						if !contains(unsafePairs, y-1) {
+							unsafePairs = append(unsafePairs, y-1)
+						}
+					}
+					if !contains(unsafePairs, y+1) {
+						unsafePairs = append(unsafePairs, y+1)
+					}
 				}
 				tested = true
 				safe = false
@@ -109,7 +129,15 @@ func testReportSafety(report []int, withRetry bool) (safe bool) {
 		safe = removeItemAndRetest(&unsafePairs, &report)
 		//loop all positions of errors that occured on report
 		if !safe {
-			safe = removeItemAndRetest(&report, &report)
+			for i := range report {
+				originalReport := report
+
+				//rerun test with 1 removed
+				fmt.Println("testing: ", remove(originalReport, i))
+				if safe {
+					break
+				}
+			}
 		}
 	}
 	return

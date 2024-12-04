@@ -30,7 +30,7 @@ func TestSafeteyWithRetry(T *testing.T) {
 			{9, 7, 6, 2, 9},
 			{1, 3, 2, 4, 5},
 			{8, 6, 4, 4, 1},
-			{1, 1, 2, 3, 4},
+			{2, 1, 2, 3, 4},
 		},
 	}
 	data.checkSafeteyWithRetry()
