@@ -19,6 +19,7 @@ func main() {
 		questions: &questions.Questions{
 			QSlice: []func(){
 				questions.Q1,
+				questions.Q2,
 			},
 		},
 	}
