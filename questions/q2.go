@@ -106,18 +106,25 @@ func testReportSafety(report []int, withRetry bool) (safe bool) {
 	//retry system
 	if !safe && !retested {
 		retested = true
-
+		safe = removeItemAndRetest(&unsafePairs, &report)
 		//loop all positions of errors that occured on report
-		for _, position := range unsafePairs {
-			fmt.Println("number of errors in report: ", unsafePairs)
-			originalReport := report
+		if !safe {
+			safe = removeItemAndRetest(&report, &report)
+		}
+	}
+	return
+}
 
-			//rerun test with 1 removed
-			fmt.Println("testing: ", remove(originalReport, position))
-			safe = testReportSafety(remove(originalReport, position), false)
-			if safe {
-				break
-			}
+func removeItemAndRetest(slice *[]int, report *[]int) (safe bool) {
+	safe = false
+	for _, position := range *slice {
+		originalReport := *report
+
+		//rerun test with 1 removed
+		fmt.Println("testing: ", remove(originalReport, position))
+		safe = testReportSafety(remove(originalReport, position), false)
+		if safe {
+			break
 		}
 	}
 	return
